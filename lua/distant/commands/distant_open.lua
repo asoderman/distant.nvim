@@ -43,11 +43,6 @@ end
 local function completion(ArgLead,_,_)
     local seperator = require('distant-core.utils').seperator()
 
-    -- Helper: String ends with
-    local function _ends_with(str, ending)
-        return ending == "" or str:sub(-ending:len()) == ending
-    end
-
     -- Helper: Get the last component of a path
     local function last_component(path)
         local parts = vim.split(path, seperator)
@@ -55,13 +50,12 @@ local function completion(ArgLead,_,_)
     end
 
     local path = ArgLead
-
     if path == nil or path == '' then
         path = "."
     end
 
     local component
-    if not _ends_with(path, seperator) and path ~= "." then
+    if not vim.endswith(path, seperator) and path ~= "." then
         component = last_component(path)
         path = parent_path(path)
     end
